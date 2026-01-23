@@ -1,5 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import SignOutButton from "./SignoutBtn";
+import Enable2FA from "./Enable2FA";
 
 export default async function Dashboard() {
   const session = await auth.api.getSession({
@@ -15,15 +17,17 @@ export default async function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-blue-900/10">
+    <div className="min-h-screen bg-blue-900/10 pt-20">
       <div className="bg-green-500/70 rounded-xl shadow max-w-xl mx-auto ">
         <h1 className="text-white text-3xl font-bold p-6 ">
           Welcome, {session.user.name ?? "User"}, How are you?
         </h1>
-        <p className="text-gray-300 mb-4">
+        <p className="text-gray-300 mb-4 bg-amber-50 p-4 w-max text-center">
           Two Factor Authentication :{" "}
           {session.user.twoFactorEnabled ? "Enabled" : "Not Enabled"}
         </p>
+        <Enable2FA session={session} />
+        <SignOutButton />
       </div>
     </div>
   );
